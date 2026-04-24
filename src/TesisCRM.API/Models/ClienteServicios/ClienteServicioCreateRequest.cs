@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.ClienteServicios; public class ClienteServicioCreateRequest { public int ClienteId { get; set; } public int ServicioId { get; set; } public string? Observacion { get; set; } public string EstadoProceso { get; set; } = "EN_PROCESO"; }

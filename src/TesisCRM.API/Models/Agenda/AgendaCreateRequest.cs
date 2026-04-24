@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Agenda; public class AgendaCreateRequest { public int ClienteId { get; set; } public string Titulo { get; set; } = ""; public string? Descripcion { get; set; } public DateTime FechaInicio { get; set; } public DateTime FechaFin { get; set; } public string TipoEvento { get; set; } = "REUNION"; public bool RecordatorioActivo { get; set; } }

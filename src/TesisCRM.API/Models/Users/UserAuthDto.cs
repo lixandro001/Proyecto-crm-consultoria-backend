@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Users; public class UserAuthDto { public int Id { get; set; } public string Username { get; set; } = ""; public string FullName { get; set; } = ""; public string PasswordHash { get; set; } = ""; public string RoleCode { get; set; } = ""; public bool IsActive { get; set; } }

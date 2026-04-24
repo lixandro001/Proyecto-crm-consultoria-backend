@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Dashboard; public class DashboardResumenDto { public int TotalClientes { get; set; } public int TotalServiciosActivos { get; set; } public int TotalContratos { get; set; } public decimal TotalCobrado { get; set; } public decimal TotalDeuda { get; set; } public int TotalReunionesProgramadas { get; set; } }

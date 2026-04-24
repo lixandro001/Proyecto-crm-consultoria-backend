@@ -1,0 +1,121 @@
+# =========================
+# Visual Studio / .NET
+# =========================
+.vs/
+.vscode/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+
+# DLL / EXE / PDB generated files
+*.dll
+*.exe
+*.pdb
+*.app
+*.cache
+*.ilk
+*.iobj
+*.ipdb
+*.exp
+*.lib
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+project.lock.json
+project.assets.json
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+coverage/
+coverage.xml
+coverage.json
+*.coverage
+*.coveragexml
+TestResults/
+
+# ASP.NET / IIS Express
+.vs/config/applicationhost.config
+*.Publish.xml
+*.pubxml.user
+
+# Publish output
+publish/
+[Pp]ublish/
+wwwroot/dist/
+wwwroot/build/
+
+# Node / Frontend if later you add React/Angular
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*.orig
+
+# SQL Server / Database generated files
+*.mdf
+*.ldf
+*.bak
+*.trn
+*.sqlplan
+
+# Local settings / secrets
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+
+# Docker local override
+docker-compose.override.yml
+
+# Generated Word/PDF files, optional
+*.pdf
+*.docx
+!Plantilla_Contrato.docx

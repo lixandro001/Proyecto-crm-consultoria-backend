@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Users; public class UserCreateRequest { public string Username { get; set; } = ""; public string FullName { get; set; } = ""; public string Password { get; set; } = ""; public string RoleCode { get; set; } = "USER"; }

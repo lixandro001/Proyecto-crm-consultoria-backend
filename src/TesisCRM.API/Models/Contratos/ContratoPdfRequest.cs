@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Contratos; public class ContratoPdfRequest { public int ContratoId { get; set; } }

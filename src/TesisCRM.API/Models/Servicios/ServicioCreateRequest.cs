@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Servicios; public class ServicioCreateRequest { public string Codigo { get; set; } = ""; public string Nombre { get; set; } = ""; public string? Descripcion { get; set; } public decimal PrecioBase { get; set; } }

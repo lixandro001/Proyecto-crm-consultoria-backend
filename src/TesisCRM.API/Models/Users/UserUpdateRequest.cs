@@ -1,0 +1,1 @@
+namespace TesisCRM.API.Models.Users; public class UserUpdateRequest { public int Id { get; set; } public string FullName { get; set; } = ""; public string RoleCode { get; set; } = "USER"; public bool IsActive { get; set; } }
