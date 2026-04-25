@@ -39,11 +39,19 @@ public class PlantillasContratoController : ControllerBase
         if (request.ArchivoWord is null || request.ArchivoWord.Length == 0)
             return BadRequest(ApiResponse<string>.Fail("Debe adjuntar un archivo Word."));
 
-        var ruta = await _fileStorageService.SaveAsync(request.ArchivoWord, "PlantillasWord");
-        var id = await _repository.CreateAsync(request.NombrePlantilla, ruta, request.Descripcion);
+        await using var ms = new MemoryStream();
+        await request.ArchivoWord.CopyToAsync(ms);
+        var bytes = ms.ToArray();
+
+        var id = await _repository.CreateAsync(
+            request.NombrePlantilla,
+            request.ArchivoWord.FileName,
+            bytes,
+            request.Descripcion
+        );
 
         return Ok(ApiResponse<object>.Ok(
-            new { Id = id, Ruta = ruta },
+            new { Id = id, NombreArchivo = request.ArchivoWord.FileName },
             "Plantilla subida correctamente."
         ));
     }

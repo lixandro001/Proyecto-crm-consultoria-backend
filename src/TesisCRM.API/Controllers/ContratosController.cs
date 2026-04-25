@@ -14,12 +14,19 @@ namespace TesisCRM.API.Controllers;
 public class ContratosController : ControllerBase
 {
     private readonly ContratoRepository _repository;
+    private readonly PlantillaContratoRepository _plantillaRepository;
     private readonly ContratoWordService _wordService;
     private readonly ContratoPdfService _pdfService;
 
-    public ContratosController(ContratoRepository repository, ContratoWordService wordService, ContratoPdfService pdfService)
+
+    public ContratosController(
+     ContratoRepository repository,
+     PlantillaContratoRepository plantillaRepository,
+     ContratoWordService wordService,
+     ContratoPdfService pdfService)
     {
         _repository = repository;
+        _plantillaRepository = plantillaRepository;
         _wordService = wordService;
         _pdfService = pdfService;
     }
@@ -46,16 +53,24 @@ public class ContratosController : ControllerBase
         if (data is null)
             return NotFound(ApiResponse<string>.Fail("Contrato no encontrado."));
 
-        if (string.IsNullOrWhiteSpace(data.RutaPlantillaWord))
+        if (!data.PlantillaContratoId.HasValue)
             return BadRequest(ApiResponse<string>.Fail("El contrato no tiene plantilla asociada."));
 
-        var bytes = _wordService.GenerarWordDesdePlantilla(data.RutaPlantillaWord, data, out var rutaWord);
-        await _repository.UpdateRutaWordAsync(contratoId, rutaWord);
+        var plantilla = await _plantillaRepository.GetArchivoByIdAsync(data.PlantillaContratoId.Value);
+
+        if (plantilla is null || plantilla.ArchivoWord is null || plantilla.ArchivoWord.Length == 0)
+            return BadRequest(ApiResponse<string>.Fail("No se encontró el archivo Word de la plantilla."));
+
+        var bytes = _wordService.GenerarWordDesdePlantillaBytes(plantilla.ArchivoWord, data);
+
+        var nombreArchivo = $"Contrato_{data.ClienteNombreCompleto.Replace(" ", "_")}.docx";
+
+        await _repository.UpdateArchivoWordGeneradoAsync(contratoId, nombreArchivo, bytes);
 
         return File(
             bytes,
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            $"Contrato_{data.ClienteNombreCompleto.Replace(" ", "_")}.docx"
+            nombreArchivo
         );
     }
 

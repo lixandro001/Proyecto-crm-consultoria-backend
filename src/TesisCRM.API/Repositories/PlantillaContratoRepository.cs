@@ -17,11 +17,43 @@ public class PlantillaContratoRepository
         return await cn.QueryAsync<PlantillaContratoDto>("usp_PlantillasContrato_List", commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> CreateAsync(string nombrePlantilla, string rutaArchivoWord, string descripcion)
+    //public async Task<int> CreateAsync(string nombrePlantilla, string rutaArchivoWord, string descripcion)
+    //{
+    //    using var cn = _factory.CreateConnection();
+    //    return await cn.ExecuteScalarAsync<int>("usp_PlantillasContrato_Insert",
+    //        new { NombrePlantilla = nombrePlantilla, RutaArchivoWord = rutaArchivoWord, Descripcion = descripcion },
+    //        commandType: CommandType.StoredProcedure);
+    //}
+
+
+    public async Task<int> CreateAsync(string nombrePlantilla, string nombreArchivoWord, byte[] archivoWord, string descripcion)
     {
         using var cn = _factory.CreateConnection();
-        return await cn.ExecuteScalarAsync<int>("usp_PlantillasContrato_Insert",
-            new { NombrePlantilla = nombrePlantilla, RutaArchivoWord = rutaArchivoWord, Descripcion = descripcion },
-            commandType: CommandType.StoredProcedure);
+
+        return await cn.ExecuteScalarAsync<int>(
+            "usp_PlantillasContrato_Insert",
+            new
+            {
+                NombrePlantilla = nombrePlantilla,
+                NombreArchivoWord = nombreArchivoWord,
+                ArchivoWord = archivoWord,
+                Descripcion = descripcion
+            },
+            commandType: CommandType.StoredProcedure
+        );
     }
+
+
+    public async Task<PlantillaContratoArchivoDto?> GetArchivoByIdAsync(int id)
+    {
+        using var cn = _factory.CreateConnection();
+
+        return await cn.QueryFirstOrDefaultAsync<PlantillaContratoArchivoDto>(
+            "usp_PlantillasContrato_GetArchivoById",
+            new { Id = id },
+            commandType: CommandType.StoredProcedure
+        );
+    }
+
+   
 }

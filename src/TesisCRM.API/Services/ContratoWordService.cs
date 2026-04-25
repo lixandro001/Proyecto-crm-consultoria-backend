@@ -1,28 +1,20 @@
 using DocumentFormat.OpenXml.Packaging;
-using TesisCRM.API.Models.Contratos;
-using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
- 
+using TesisCRM.API.Models.Contratos;
 
 namespace TesisCRM.API.Services;
 
 public class ContratoWordService
 {
-    public byte[] GenerarWordDesdePlantilla(string rutaPlantilla, ContratoPlantillaDto data, out string outputPath)
+    public byte[] GenerarWordDesdePlantillaBytes(byte[] plantillaBytes, ContratoPlantillaDto data)
     {
-        if (!File.Exists(rutaPlantilla))
-            throw new FileNotFoundException("No se encontró la plantilla Word.", rutaPlantilla);
+        using var inputStream = new MemoryStream();
+        inputStream.Write(plantillaBytes, 0, plantillaBytes.Length);
 
-        outputPath = Path.Combine(Path.GetTempPath(), $"Contrato_{data.ContratoId}_{Guid.NewGuid():N}.docx");
-        File.Copy(rutaPlantilla, outputPath, true);
+        using var workingStream = new MemoryStream(inputStream.ToArray());
 
-        using (var wordDoc = WordprocessingDocument.Open(outputPath, true))
+        using (var wordDoc = WordprocessingDocument.Open(workingStream, true))
         {
-            var body = wordDoc.MainDocumentPart?.Document.Body;
-
-            if (body == null)
-                throw new InvalidOperationException("El documento Word no tiene contenido válido.");
-
             ReplacePlaceholders(wordDoc, new Dictionary<string, string>
             {
                 { "{CLIENTE_NOMBRE_COMPLETO}", data.ClienteNombreCompleto ?? "" },
@@ -39,10 +31,10 @@ public class ContratoWordService
                 { "{FIRMA_CLIENTE}", data.FirmaCliente ?? "" }
             });
 
-            wordDoc.MainDocumentPart!.Document.Save();
+            wordDoc.MainDocumentPart?.Document.Save();
         }
 
-        return File.ReadAllBytes(outputPath);
+        return workingStream.ToArray();
     }
 
     private void ReplacePlaceholders(WordprocessingDocument doc, Dictionary<string, string> replacements)
@@ -51,16 +43,13 @@ public class ContratoWordService
         if (mainPart?.Document?.Body == null)
             return;
 
-        // Reemplazo en documento principal
         ReplaceInTextElements(mainPart.Document.Body.Descendants<Text>(), replacements);
 
-        // Reemplazo en headers
         foreach (var headerPart in mainPart.HeaderParts)
         {
             ReplaceInTextElements(headerPart.RootElement?.Descendants<Text>() ?? Enumerable.Empty<Text>(), replacements);
         }
 
-        // Reemplazo en footers
         foreach (var footerPart in mainPart.FooterParts)
         {
             ReplaceInTextElements(footerPart.RootElement?.Descendants<Text>() ?? Enumerable.Empty<Text>(), replacements);

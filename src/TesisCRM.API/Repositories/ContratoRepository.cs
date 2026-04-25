@@ -48,4 +48,20 @@ public class ContratoRepository
         if (data is not null) data.PrecioEnLetras = $"{data.PrecioTotal:0.00} SOLES";
         return data;
     }
+
+    public async Task UpdateArchivoWordGeneradoAsync(int contratoId, string nombreArchivo, byte[] archivoWord)
+    {
+        using var cn = _factory.CreateConnection();
+
+        await cn.ExecuteAsync(
+            "usp_Contratos_UpdateArchivoWordGenerado",
+            new
+            {
+                ContratoId = contratoId,
+                NombreArchivoWordGenerado = nombreArchivo,
+                ArchivoWordGenerado = archivoWord
+            },
+            commandType: CommandType.StoredProcedure
+        );
+    }
 }
