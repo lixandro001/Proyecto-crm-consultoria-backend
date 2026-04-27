@@ -16,19 +16,19 @@ public class ContratosController : ControllerBase
     private readonly ContratoRepository _repository;
     private readonly PlantillaContratoRepository _plantillaRepository;
     private readonly ContratoWordService _wordService;
-    private readonly ContratoPdfService _pdfService;
+    //private readonly ContratoPdfService _pdfService;
 
 
     public ContratosController(
      ContratoRepository repository,
      PlantillaContratoRepository plantillaRepository,
-     ContratoWordService wordService,
-     ContratoPdfService pdfService)
+     ContratoWordService wordService
+      )
     {
         _repository = repository;
         _plantillaRepository = plantillaRepository;
         _wordService = wordService;
-        _pdfService = pdfService;
+        //_pdfService = pdfService;
     }
 
     [HttpGet]
@@ -74,7 +74,9 @@ public class ContratosController : ControllerBase
         );
     }
 
-    [HttpPost("generar-pdf")]
-    public async Task<IActionResult> GenerarPdf([FromBody] ContratoPdfRequest request)
-        => Ok(ApiResponse<object>.Ok(new { Ruta = await _pdfService.GenerarPdfAsync(request.ContratoId) }, "PDF generado correctamente."));
+    //[HttpPost("generar-pdf")]
+    //public async Task<IActionResult> GenerarPdf([FromBody] ContratoPdfRequest request)
+    //    => Ok(ApiResponse<object>.Ok(new { Ruta = await _pdfService.GenerarPdfAsync(request.ContratoId) }, "PDF generado correctamente."));
+
+
 }

@@ -1,0 +1,20 @@
+cliente : nuevo se hace un contrtao - pero todavia no hay una reunion hasta que acepte el cliente , 
+        si hay registrara : 
+ en el combo de ciclos ponerle 2 campos mas dire dos rgistro adicionales _ pre-grado y post-grao  
+ el potencial no 
+ agregar un campo o que diga registrado nomas . 
+ registrado , inecativo y finalizado .
+
+2 en la reunion :en servicios, por ahora solo asesorias mano , los demas deben estar inactios pues. , que haiga un boton para activar verdad 
+
+3: en cliente- servicios : le ponesmo un historial de clientes registrados .faltaria actualizar los estados de ese cliente asigando al sericio pues
+                           una ves que se actualiza , hay hay que ver el tema de los estados ,sobre los clientes asiganado con sus servicios . 
+     -falta editar el estados.
+     -falta el buscador.
+     
+
+-------------***********++falta contrato*************************
+segun dicen que en servicio deben estar los montos ,osea el costo total , monto abonado , saldo pendiente , 
+en cuantas cuitas va a pagar , 
+
+aca faltan las cuotas , en uentas cuotas vas a pagar .

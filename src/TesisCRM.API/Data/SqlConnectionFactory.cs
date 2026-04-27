@@ -1,17 +1,26 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 
 namespace TesisCRM.API.Data;
 
 public class SqlConnectionFactory
 {
     private readonly IConfiguration _configuration;
-    public SqlConnectionFactory(IConfiguration configuration) => _configuration = configuration;
 
-    public IDbConnection CreateConnection()
+    public SqlConnectionFactory(IConfiguration configuration)
     {
-        var cs = _configuration.GetConnectionString("Default")
-            ?? throw new InvalidOperationException("No existe ConnectionStrings:Default.");
-        return new SqlConnection(cs);
+        _configuration = configuration;
+    }
+
+    public SqlConnection CreateConnection()
+    {
+        var connectionString = _configuration.GetConnectionString("Default");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new Exception("No se encontró la cadena de conexión 'Default'.");
+        }
+
+        return new SqlConnection(connectionString);
     }
 }
